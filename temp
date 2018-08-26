@@ -1,0 +1,29 @@
+#include "MCP9808.h"
+
+#include "application.h"
+
+
+MCP9808 tempsensor = MCP9808();
+
+int led = D7;
+
+
+void setup() {
+  pinMode(led, OUTPUT);
+
+  tempsensor.begin();
+  Serial.begin(9600);
+  }
+
+void loop() {
+
+  digitalWrite(led, HIGH);
+
+  float c = tempsensor.readTempC();
+  String temp = c;
+  Particle.publish("temp", temp, PRIVATE);
+  delay(30000);
+
+  digitalWrite(led, LOW);
+  delay(30000);
+}
